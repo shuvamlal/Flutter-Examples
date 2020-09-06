@@ -17,34 +17,28 @@ class HomePage extends StatelessWidget {
         title: Text("Awesome Start"),
       ),
       body: Center(
-        child: Container(
-          width: 100,
-          height: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+            width: 100,
+            height: 100,
             color: Colors.red,
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(colors: [
-              Colors.pink,
-              Colors.yellow
-            ]),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.pink,
-                blurRadius: 10
-              )
-            ]
           ),
-          child: Text(
-            "I'm a box.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold
-            ),
+           Container(
+            width: 100,
+            height: 100,
+            color: Colors.yellow,
           ),
-        ),
+           Container(
+            width: 100,
+            height: 100,
+            color: Colors.green,
+          ),
+          ],
+          
+        )
       ),
     );
   }
