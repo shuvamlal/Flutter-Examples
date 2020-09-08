@@ -5,7 +5,8 @@ class NameCard extends StatelessWidget {
     Key key,
     @required this.myText,
     @required TextEditingController nameController,
-  }) : _nameController = nameController, super(key: key);
+  })  : _nameController = nameController,
+        super(key: key);
 
   final String myText;
   final TextEditingController _nameController;
