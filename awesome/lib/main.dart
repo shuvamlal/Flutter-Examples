@@ -26,28 +26,33 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Card(
-            child: Column(
-              children: [
-                Image.asset("assets/abc.jpeg"),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  myText,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(hintText: "Your Name", labelText: "Name", border: OutlineInputBorder()),
+          child: SingleChildScrollView(
+            child: Card(
+              child: Column(
+                children: [
+                  Image.asset("assets/abc.jpeg"),
+                  SizedBox(
+                    height: 20,
                   ),
-                )
-              ],
+                  Text(
+                    myText,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                          hintText: "Your Name",
+                          labelText: "Name",
+                          border: OutlineInputBorder()),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -84,9 +89,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           myText = _nameController.text;
-          setState(() {
-            
-          });
+          setState(() {});
         },
         child: Icon(Icons.send),
       ),
