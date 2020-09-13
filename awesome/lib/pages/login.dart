@@ -1,6 +1,10 @@
+import 'package:awesome/pages/home_page.dart';
+import 'package:awesome/utils/constants.dart';
 import "package:flutter/material.dart";
 
 class MyLogin extends StatefulWidget {
+  static const String routeName = "/login";
+
   @override
   _MyLoginState createState() => _MyLoginState();
 }
@@ -52,7 +56,11 @@ class _MyLoginState extends State<MyLogin> {
                                 labelText: "Password"),
                           ),
                           RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Constants.prefs.setBool("LoggedIn", true);
+                              Navigator.pushReplacementNamed(
+                                  context, HomePage.routeName);
+                            },
                             child: Text("Login"),
                             color: Colors.orangeAccent,
                             textColor: Colors.white,

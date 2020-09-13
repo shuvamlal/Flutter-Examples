@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:awesome/drawer.dart';
+import 'package:awesome/pages/login.dart';
+import 'package:awesome/utils/constants.dart';
 import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
+  static const String routeName = "/home";
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -38,6 +42,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Awesome Start"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                Constants.prefs.setBool("LoggedIn", false);
+                Navigator.pushReplacementNamed(context, MyLogin.routeName);
+              })
+        ],
       ),
       body: data != null
           ? ListView.builder(
