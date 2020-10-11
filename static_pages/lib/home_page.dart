@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:static_pages/button_section.dart';
 import 'package:static_pages/title_section.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,7 +7,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleSection()
+        TitleSection(),
+        ButtonSection()
       ],
     );
   }
