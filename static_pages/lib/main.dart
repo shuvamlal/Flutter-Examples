@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:static_pages/home_page.dart';
 
+import 'app_drawer.dart';
+
 main() {
   runApp(MyApp());
 }
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text("Static Page"),
