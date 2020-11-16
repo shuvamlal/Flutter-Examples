@@ -1,6 +1,5 @@
+import 'package:expense_tracker/widgets/user_transactions.dart';
 import 'package:flutter/material.dart';
-
-import 'home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +14,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("Expense Tracker"),
         ),
-        body: HomePage(),
+        body: Container(
+          padding: EdgeInsets.all(8.0),
+          child: UserTransactions(),
+        ),
       ),
     );
   }
