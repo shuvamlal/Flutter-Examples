@@ -4,17 +4,18 @@ import 'package:intl/intl.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionsList(this.transactions);
+  final Function deleteTx;
+  TransactionsList(this.transactions, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 450,
       child: transactions.isEmpty
           ? Column(
               children: [
                 Text(
-                  "Not Found!!",
+                  "No Transactions Found!!",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 SizedBox(
@@ -32,6 +33,11 @@ class TransactionsList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
                   child: ListTile(
                     leading: CircleAvatar(
                       radius: 30,
@@ -39,7 +45,7 @@ class TransactionsList extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         child: FittedBox(
                           child: Text(
-                            '\₹${transactions[index].amount.toStringAsFixed(2)}',
+                            '\₹${transactions[index].amount}',
                           ),
                         ),
                       ),
@@ -50,6 +56,10 @@ class TransactionsList extends StatelessWidget {
                     ),
                     subtitle: Text(
                         DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).errorColor,
+                        onPressed: () => deleteTx(transactions[index].id)),
                   ),
                 );
               },

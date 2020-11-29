@@ -15,15 +15,21 @@ class _HomePageState extends State<HomePage> {
     // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
   ];
 
-  void _addTransactions(String txTitle, double txAmount) {
+  void _addTransactions(String txTitle, double txAmount, DateTime chsnDate) {
     final val = Transaction(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now());
+        date: chsnDate);
 
     setState(() {
       _userTransactions.add(val);
+    });
+  }
+
+  void _deleteTransactions(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) => element.id == id);
     });
   }
 
@@ -65,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Chart(_recentTransactions),
-            TransactionsList(_userTransactions),
+            TransactionsList(_userTransactions, _deleteTransactions),
           ],
         ),
       ),
