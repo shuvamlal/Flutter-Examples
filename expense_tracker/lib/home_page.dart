@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'models/transactions.dart';
 import 'widgets/input_transaction.dart';
@@ -10,13 +11,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(id: 1, title: "New Shoe", amount: 69.8, date: DateTime.now()),
-    Transaction(id: 2, title: "Paint Ball", amount: 78.4, date: DateTime.now())
+    // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
+    // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
   ];
 
   void _addTransactions(String txTitle, double txAmount) {
     final val = Transaction(
-        id: 3, title: txTitle, amount: txAmount, date: DateTime.now());
+        id: DateTime.now().toString(),
+        title: txTitle,
+        amount: txAmount,
+        date: DateTime.now());
 
     setState(() {
       _userTransactions.add(val);
@@ -35,11 +39,20 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expense Tracker"),
+        title: Text(
+          "Expense Tracker",
+          style: Theme.of(context).textTheme.headline6,
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -47,9 +60,14 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(8.0),
-        child: TransactionsList(_userTransactions),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Chart(_recentTransactions),
+            TransactionsList(_userTransactions),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(

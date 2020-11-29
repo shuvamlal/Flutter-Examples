@@ -11,7 +11,6 @@ class InputTransaction extends StatefulWidget {
 
 class _InputTransactionState extends State<InputTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
 
   void submitData() {
@@ -28,24 +27,35 @@ class _InputTransactionState extends State<InputTransaction> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextField(
-            decoration: InputDecoration(hintText: 'Items Name'),
-            textCapitalization: TextCapitalization.words,
-            controller: titleController,
-            onSubmitted: (_) => submitData(),
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: 'Amount charged'),
-            keyboardType: TextInputType.number,
-            controller: amountController,
-            onSubmitted: (value) => submitData(),
-          ),
-          FlatButton(
-              onPressed: () => submitData(), child: Text('Add Transaction'))
-        ],
+      elevation: 5,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(labelText: 'Title'),
+              textCapitalization: TextCapitalization.words,
+              controller: titleController,
+              onSubmitted: (_) => submitData(),
+              // onChanged: (val) {
+              //   titleInput = val;
+              // },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Amount'),
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
+              // onChanged: (val) => amountInput = val,
+            ),
+            FlatButton(
+              child: Text('Add Transaction'),
+              textColor: Colors.purple,
+              onPressed: submitData,
+            ),
+          ],
+        ),
       ),
     );
   }
