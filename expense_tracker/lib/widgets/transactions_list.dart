@@ -9,8 +9,8 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Container(
-      height: 450,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -22,7 +22,7 @@ class TransactionsList extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  height: 200,
+                  height: mediaQuery.size.height * 0.45,
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
