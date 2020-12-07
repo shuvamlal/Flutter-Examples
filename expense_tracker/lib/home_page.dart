@@ -1,28 +1,43 @@
 import 'package:expense_tracker/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'models/transactions.dart';
 import 'widgets/input_transaction.dart';
 import 'widgets/transactions_list.dart';
 
 class HomePage extends StatefulWidget {
+  final Future<Database> myDatabase;
+  HomePage(this.myDatabase);
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(myDatabase);
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Transaction> _userTransactions = [
+  final Future<Database> database;
+
+  _HomePageState(this.database);
+
+  final List<Transactions> _userTransactions = [
     // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
     // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
   ];
 
+  Future<void> insertTransaction(Transactions transactions) async {
+    final Database db = await database;
+
+    await db.insert('transactions_database', transactions.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
   void _addTransactions(String txTitle, double txAmount, DateTime chsnDate) {
-    final val = Transaction(
+    final val = Transactions(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
         date: chsnDate);
 
-    setState(() {
+    setState(() async {
+      await insertTransaction(val);
       _userTransactions.add(val);
     });
   }
@@ -46,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  List<Transaction> get _recentTransactions {
+  List<Transactions> get _recentTransactions {
     return _userTransactions.where((element) {
       return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
