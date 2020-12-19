@@ -1,33 +1,21 @@
 import 'package:expense_tracker/widgets/chart.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'models/transactions.dart';
 import 'widgets/input_transaction.dart';
 import 'widgets/transactions_list.dart';
 
 class HomePage extends StatefulWidget {
-  final Future<Database> myDatabase;
-  HomePage(this.myDatabase);
   @override
-  _HomePageState createState() => _HomePageState(myDatabase);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final Future<Database> database;
-
-  _HomePageState(this.database);
+  _HomePageState();
 
   final List<Transactions> _userTransactions = [
     // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
     // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
   ];
-
-  Future<void> insertTransaction(Transactions transactions) async {
-    final Database db = await database;
-
-    await db.insert('transactions_database', transactions.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-  }
 
   void _addTransactions(String txTitle, double txAmount, DateTime chsnDate) {
     final val = Transactions(
@@ -35,11 +23,7 @@ class _HomePageState extends State<HomePage> {
         title: txTitle,
         amount: txAmount,
         date: chsnDate);
-
-    setState(() async {
-      await insertTransaction(val);
-      _userTransactions.add(val);
-    });
+    _userTransactions.add(val);
   }
 
   void _deleteTransactions(String id) {
