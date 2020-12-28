@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/transactions.dart';
 import 'widgets/input_transaction.dart';
 import 'widgets/transactions_list.dart';
+import 'database.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,23 +13,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   _HomePageState();
 
-  final List<Transactions> _userTransactions = [
-    // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
-    // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
-  ];
+  // final List<Transactions> _userTransactions = [
+  //   // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
+  //   // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
+  // ];
 
-  void _addTransactions(String txTitle, double txAmount, DateTime chsnDate) {
+  void _addTransactions(
+      String txTitle, double txAmount, DateTime chsnDate) async {
     final val = Transactions(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
         date: chsnDate);
-    _userTransactions.add(val);
+    // _userTransactions.add(val);
+    int i = await DatabaseHelper.instance.insert(val);
+    print(i);
   }
 
   void _deleteTransactions(String id) {
     setState(() {
-      _userTransactions.removeWhere((element) => element.id == id);
+      print(id);
+      DatabaseHelper.instance.delete(id);
+      // _userTransactions.removeWhere((element) => element.id == id);
     });
   }
 
@@ -45,10 +51,17 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  List<Transactions> get _recentTransactions {
-    return _userTransactions.where((element) {
+  // List<Transactions> get _recentTransactions {
+  //   return _userTransactions.where((element) {
+  //     return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+  //   }).toList();
+  // }
+
+  Future<List<Transactions>> get _recentTransaction async {
+    final List<Transactions> maps = await DatabaseHelper.instance.queryAll();
+    return maps.where((element) {
       return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-    }).toList();
+    });
   }
 
   @override
@@ -77,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                         appBar.preferredSize.height -
                         mediaQuery.padding.top) *
                     0.3,
-                child: Chart(_recentTransactions)),
+                child: Chart(_recentTransaction)),
             Container(
                 height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
