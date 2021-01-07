@@ -13,10 +13,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   _HomePageState();
 
-  // final List<Transactions> _userTransactions = [
-  //   // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
-  //   // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
-  // ];
+  final List<Transactions> _userTransactions = [
+    // Transaction(id: '1', title: "New Shoe", amount: 6.8, date: DateTime.now()),
+    // Transaction(id: '2', title: "Paint Ball", amount: 7.4, date: DateTime.now())
+  ];
 
   void _addTransactions(
       String txTitle, double txAmount, DateTime chsnDate) async {
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         title: txTitle,
         amount: txAmount,
         date: chsnDate);
-    // _userTransactions.add(val);
+    _userTransactions.add(val);
     int i = await DatabaseHelper.instance.insert(val);
     print(i);
   }
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       print(id);
       DatabaseHelper.instance.delete(id);
-      // _userTransactions.removeWhere((element) => element.id == id);
+      _userTransactions.removeWhere((element) => element.id == id);
     });
   }
 
@@ -51,11 +51,11 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  // List<Transactions> get _recentTransactions {
-  //   return _userTransactions.where((element) {
-  //     return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-  //   }).toList();
-  // }
+  List<Transactions> get _recentTransactions {
+    return _userTransactions.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   Future<List<Transactions>> get _recentTransaction async {
     final List<Transactions> maps = await DatabaseHelper.instance.queryAll();
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                         appBar.preferredSize.height -
                         mediaQuery.padding.top) *
                     0.3,
-                child: Chart(_recentTransaction)),
+                child: Chart(_recentTransactions)),
             Container(
                 height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
